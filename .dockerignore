@@ -1,0 +1,10 @@
+.git
+.gitignore
+.env
+logs
+sentinel.db*
+.venv
+__pycache__
+*.pyc
+security/report
+tests

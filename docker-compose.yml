@@ -1,0 +1,24 @@
+services:
+  sentinel-agent:
+    build: .
+    container_name: sentinel-agent
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=${SECRET_KEY:?set SECRET_KEY in .env}
+      - ENVIRONMENT=production
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DEBUG=false
+      - AI_PROVIDER=${AI_PROVIDER:-local}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:8000}
+    # Do not mount the host .env into the image; secrets stay host-side.
+    env_file:
+      - .env
+    volumes:
+      - sentinel-data:/srv/sentinel/data
+
+volumes:
+  sentinel-data:

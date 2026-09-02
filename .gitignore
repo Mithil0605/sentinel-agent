@@ -1,0 +1,37 @@
+# Environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Databases
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Runtime logs
+logs/
+
+# Security scan outputs (do not commit findings with identifying info)
+security/report*.html
+security/*.json
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/

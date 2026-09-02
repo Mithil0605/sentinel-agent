@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentinel Agent</title>
+<meta name="description" content="Sentinel Agent - AI assistant with tool integration">
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">S</div>
+      <div>
+        <h1>Sentinel Agent</h1>
+        <span class="subtitle">AI assistant · tools enabled</span>
+      </div>
+    </div>
+    <nav class="nav">
+      <button class="nav-item active" data-view="chat">Chat</button>
+      <button class="nav-item" data-view="tools">Tools</button>
+      <button class="nav-item" data-view="sessions">Sessions</button>
+    </nav>
+    <div class="sidebar-footer">
+      <span class="status-dot"></span> Online
+    </div>
+  </aside>
+
+  <main class="main">
+    <section id="view-chat" class="view active">
+      <header class="chat-header">
+        <h2>Conversation</h2>
+        <button id="new-chat" class="ghost-btn">New chat</button>
+      </header>
+      <div id="messages" class="messages" aria-live="polite">
+        <div class="message assistant">
+          <div class="bubble">
+            Hi, I'm the Sentinel Agent. I can calculate things, check the weather,
+            tell the time, create tickets, and search my knowledge base. How can I help?
+          </div>
+        </div>
+      </div>
+      <form id="chat-form" class="composer">
+        <textarea id="input" rows="1" placeholder="Ask me anything…" maxlength="4000" required></textarea>
+        <button type="submit" class="send-btn" aria-label="Send">➤</button>
+      </form>
+    </section>
+
+    <section id="view-tools" class="view">
+      <header class="chat-header"><h2>Available Tools</h2></header>
+      <div id="tools-list" class="cards"></div>
+    </section>
+
+    <section id="view-sessions" class="view">
+      <header class="chat-header"><h2>Sessions</h2></header>
+      <div id="sessions-list" class="cards"></div>
+    </section>
+  </main>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>
