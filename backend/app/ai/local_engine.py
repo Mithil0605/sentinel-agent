@@ -134,14 +134,22 @@ class LocalEngine:
     def _intent_tool(self, text: str) -> dict[str, Any] | None:
         lowered = text.lower().strip()
 
-        if re.search(r"\b(calculate|compute|what is|how much|sum of|add|multiply)\b.*?\d", lowered):
+        if re.search(
+            r"\b(calculate|compute|what is|how much|sum of|add|multiply|raised|\^|power|plus|minus|times|divided|subtract|multiplied)\b.*?\d",
+            lowered,
+        ):
             numbers = [float(n) for n in re.findall(r"-?\d+(?:\.\d+)?", lowered)]
             if len(numbers) >= 2:
-                op = "*" if "*" in text or "multiply" in lowered or "times" in lowered else (
-                    "-" if "subtract" in lowered or "minus" in lowered or "difference" in lowered else (
-                        "/" if "divide" in lowered or "divided" in lowered else "+"
-                    )
-                )
+                if "raised" in lowered or "power" in lowered or "^" in text or " to the power " in lowered:
+                    op = "**"
+                elif "*" in text or "multiply" in lowered or "times" in lowered:
+                    op = "*"
+                elif "subtract" in lowered or "minus" in lowered or "difference" in lowered:
+                    op = "-"
+                elif "divide" in lowered or "divided" in lowered:
+                    op = "/"
+                else:
+                    op = "+"
                 return {"name": "calculator", "arguments": {"expression": f"{numbers[0]} {op} {numbers[1]}"}}
 
         if re.search(r"\b(weather|temperature) in\b", lowered):
@@ -153,7 +161,14 @@ class LocalEngine:
             return {"name": "get_time", "arguments": {}}
 
         if re.search(r"\b(ticket|support|helpdesk|need help)\b", lowered):
-            return {"name": "create_ticket", "arguments": {"summary": text[:140]}}
+            priority = "standard"
+            if re.search(r"\b(critical|emergency|urgent|down|outage)\b", lowered):
+                priority = "critical"
+            elif re.search(r"\b(high|important|blocked)\b", lowered):
+                priority = "high"
+            elif re.search(r"\b(low|minor|cosmetic)\b", lowered):
+                priority = "low"
+            return {"name": "create_ticket", "arguments": {"summary": text[:140], "priority": priority}}
 
         if re.search(r"\b(remind|reminder)\b", lowered):
             return {"name": "set_reminder", "arguments": {"note": text[:140]}}
