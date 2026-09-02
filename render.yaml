@@ -1,0 +1,23 @@
+# Render Blueprint — deploys the Sentinel Agent as a permanent web service.
+#
+# To deploy:
+#   1. At https://dashboard.render.com, choose "New" -> "Blueprint".
+#   2. Connect your GitHub repo: Mithil0605/sentinel-agent
+#   3. Render reads this render.yaml, generates a SECRET_KEY, and deploys.
+#
+# Result: a permanent public URL like https://sentinel-agent.onrender.com
+services:
+  - type: web
+    name: sentinel-agent
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    region: singapore
+    healthCheckPath: /api/health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: AI_PROVIDER
+        value: local
+      - key: SECRET_KEY
+        generateValue: true
